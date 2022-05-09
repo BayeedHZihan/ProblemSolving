@@ -1,6 +1,6 @@
 #include <vector>
 
-// Combination Sum //
+// Combination Sum
 vector<vector<int>> res;
 vector<int> temp;
 vector<vector<int>> combinationSum(vector<int> &candidates, int target)
@@ -21,6 +21,40 @@ void backTrack(vector<int> &candidates, int sum, int target, int idx)
   {
     temp.push_back(candidates[i]);
     backTrack(candidates, sum + candidates[i], target, i);
+    temp.pop_back();
+  }
+}
+
+// **Combination Sum ||**
+// set<vector<int>> Set;
+vector<vector<int>> res;
+vector<int> temp;
+vector<vector<int>> combinationSum2(vector<int> &candidates, int target)
+{
+  sort(candidates.begin(), candidates.end());
+  backtrack(candidates, target, 0, 0);
+  // vector<vector<int>> res;
+  // for (auto i=Set.begin(); i!=Set.end(); i++) {
+  //     res.push_back(*i);
+  // }
+  return res;
+}
+void backtrack(vector<int> &candidates, int target, int sum, int idx)
+{
+  if (sum > target)
+    return;
+  if (sum == target)
+  {
+    // Set.insert(temp);
+    res.push_back(temp);
+    return;
+  }
+  for (int i = idx; i < candidates.size(); i++)
+  {
+    if (i > idx && candidates[i] == candidates[i - 1])
+      continue;
+    temp.push_back(candidates[i]);
+    backtrack(candidates, target, sum + candidates[i], i + 1);
     temp.pop_back();
   }
 }
