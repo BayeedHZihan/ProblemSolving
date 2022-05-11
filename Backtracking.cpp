@@ -1,5 +1,3 @@
-#include <vector>
-
 // Combination Sum
 vector<vector<int>> res;
 vector<int> temp;
@@ -24,6 +22,12 @@ void backTrack(vector<int> &candidates, int sum, int target, int idx)
     temp.pop_back();
   }
 }
+
+
+
+
+
+
 
 // **Combination Sum ||**
 // set<vector<int>> Set;
@@ -59,6 +63,13 @@ void backtrack(vector<int> &candidates, int target, int sum, int idx)
   }
 }
 
+
+
+
+
+
+
+
 // Subsets
 vector<vector<int>> res;
 vector<int> temp;
@@ -77,6 +88,13 @@ void backtrack(vector<int> &nums, int idx)
     temp.pop_back();
   }
 }
+
+
+
+
+
+
+
 
 // Subsets ||
 vector<vector<int>> res;
@@ -99,6 +117,11 @@ void backtrack(vector<int> &nums, int idx)
     temp.pop_back();
   }
 }
+
+
+
+
+
 
 // Permutations
 vector<vector<int>> res;
@@ -124,4 +147,53 @@ void backtrack(vector<int> &nums)
       temp.pop_back();
     }
   }
+}
+
+
+
+
+
+
+
+
+
+// word search
+string str = "";
+// unordered_set<string> visited;
+bool exist(vector<vector<char>> &board, string word)
+{
+  for (int i = 0; i < board.size(); i++)
+  {
+    for (int j = 0; j < board[0].size(); j++)
+    {
+      if (backtrack(board, word, i, j))
+        return true;
+    }
+  }
+  return false;
+}
+vector<pair<int, int>> dir = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+bool backtrack(vector<vector<char>> &board, string word, int row, int col)
+{
+  if (str.size() > word.size())
+    return false;
+  if (row < 0 || col < 0 || row >= board.size() || col >= board[0].size() || board[row][col] == '*')
+    return false;
+  if (str.size() < word.size() && word[str.size()] != board[row][col])
+    return false;
+  str += board[row][col];
+  if (str == word)
+    return true;
+  char cur = board[row][col];
+  board[row][col] = '*';
+  // visited.insert(to_string(row) + to_string(col));
+  for (auto d : dir)
+  {
+    if (backtrack(board, word, row + d.first, col + d.second))
+      return true;
+  }
+  str.pop_back();
+  board[row][col] = cur;
+  // visited.erase(to_string(row) + to_string(col));
+  return false;
 }
