@@ -149,7 +149,7 @@ bool backtrack(vector<vector<char>> &board, string word, int row, int col) {
   str += board[row][col];
   if (str == word) return true;
   char cur = board[row][col];
-  board[row][col] = '\_';
+  board[row][col] = '*';
   // visited.insert(to_string(row) + to_string(col));
   for (auto d : dir) {
     if (backtrack(board, word, row + d.first, col + d.second)) return true;
