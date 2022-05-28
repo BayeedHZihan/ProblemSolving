@@ -1,5 +1,6 @@
 ```cpp
 // JUMP GAME
+
 bool canJump(vector<int>& nums) {
   int n = nums.size();
   vector<bool> memo(n, false);
@@ -17,10 +18,9 @@ bool canJump(vector<int>& nums) {
 }
 ```
 
-
-
 ```cpp
 // JUMP GAME 2
+
 int jump(vector<int>& nums) {
   int n = nums.size();
   vector<int> memo(n, INT_MAX);
@@ -38,10 +38,9 @@ int jump(vector<int>& nums) {
 }
 ```
 
-
-
 ```cpp
 // MAX SUM SUB-ARRAY
+
 int maxSubArray(vector<int>& nums) {
   int cur = 0, res = 0, largest = INT_MIN;
   for (int i=0; i<nums.size(); i++) {
@@ -54,10 +53,9 @@ int maxSubArray(vector<int>& nums) {
 }
 ```
 
-
-
 ```cpp
 // 134. GAS STATION
+
 int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
   int n = gas.size();
   vector<int> combined(n);
@@ -73,5 +71,21 @@ int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
       i = j;
   }
   return -1;
+}
+```
+
+```cpp
+// 678. Valid Parenthesis String (with wildcard *)
+
+bool checkValidString(string s) {
+  int minOpen = 0, maxOpen = 0;
+  for (auto c: s) {
+      if (c == '(') minOpen++, maxOpen++;
+      else if (c == ')') minOpen--, maxOpen--;
+      else minOpen--, maxOpen++;
+      minOpen = max(0, minOpen);
+      if (maxOpen < 0) return false;
+  }
+  return minOpen == 0;
 }
 ```
