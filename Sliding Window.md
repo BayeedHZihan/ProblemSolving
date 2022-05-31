@@ -19,3 +19,17 @@ int lengthOfLongestSubstring(string s) {
   return res;
 }
 ```
+
+```cpp
+// Best Time to Buy and Sell Stock
+
+int maxProfit(vector<int>& prices) {
+  int buy = 0, sell = 0, res = 0;
+  while (sell < prices.size()) {
+      res = max(res, prices[sell] - prices[buy]);
+      if (prices[sell] < prices[buy]) buy = sell;
+      else sell++;
+  }
+  return res;
+}
+```
