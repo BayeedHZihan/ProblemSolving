@@ -33,3 +33,26 @@ int maxProfit(vector<int>& prices) {
   return res;
 }
 ```
+
+```cpp
+// Longest Repeating Character Replacement
+
+int characterReplacement(string s, int k) {
+  int l = 0, res = 0, n = s.length(), curmax = 0;
+  unordered_map<char, int> umap;
+  for (int r = 0; r < n; r++) {
+      umap[s[r]]++;
+      curmax = max(curmax, umap[s[r]]);
+      while ((r-l+1) - curmax > k) {
+          umap[s[l]]--;
+          l++;
+          curmax = 0;
+          for (auto i=umap.begin(); i!=umap.end(); i++) {
+              curmax = max(curmax, i->second);
+          }
+      }
+      res = max(res, r-l+1);
+  }
+  return res;
+}
+```
