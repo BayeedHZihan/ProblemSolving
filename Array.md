@@ -17,3 +17,25 @@ vector<int> topKFrequent(vector<int>& nums, int k) {
   return res;
 }
 ```
+
+```cpp
+// Longest Consecutive Sequence
+
+int longestConsecutive(vector<int>& nums) {
+  int res = 0;
+  unordered_set<int> uset;
+  for (auto n: nums) uset.insert(n);
+  for (auto n: nums) {
+      if (uset.find(n-1) == uset.end()) {
+          int temp = n;
+          int cnt = 0;
+          while (uset.find(temp) != uset.end()) {
+              cnt++;
+              temp++;
+          }
+          res = max(cnt, res);
+      }
+  }
+  return res;
+}
+```
