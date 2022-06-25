@@ -69,3 +69,24 @@ string findLongest(int l, int r) {
   return str.substr(l+1, r-l-1);
 }
 ```
+
+```cpp
+// Count Palindromic Substrings
+string str;
+int n;
+int countSubstrings(string s) {
+  int res = 0;
+  n = s.size();
+  str = s;
+  for (int i=0; i<n; i++) {
+      res += countCurPivot(i-1, i+1);
+      if (i>0 && s[i-1]==s[i]) res += countCurPivot(i-2, i+1);
+  }
+  return res;
+}
+int countCurPivot(int l, int r) {
+  int cnt = 1;
+  while (l>=0 && r<n && str[l]==str[r]) cnt++, l--, r++;
+  return cnt;
+}
+```
