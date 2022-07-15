@@ -119,3 +119,23 @@ int maxProduct(vector<int>& nums) {
   return res;
 }
 ```
+
+```cpp
+// Word Break
+bool wordBreak(string s, vector<string>& wordDict) {
+  int len = s.size(), n = wordDict.size();
+  vector<bool> dp(len, false);
+  for (int i=0; i<len; i++) {
+      for (auto word: wordDict) {
+          int wordLen = word.size();
+          if (i >= wordLen-1 && (i == wordLen-1 || dp[i-wordLen])) {
+              if (s.substr(i-wordLen+1, wordLen) == word) {
+                  dp[i] = true;
+                  break;
+              }
+          }
+      }
+  }
+  return dp[len-1];
+}
+```
