@@ -8,6 +8,29 @@ int findCenter(vector<vector<int>>& edges) {
 
 ```cpp
 // Find if Path Exists in Graph
+// dfs
+unordered_map<int, vector<int>> graph;
+unordered_set<int> visited;
+bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+  createGraph(n, edges);
+  return dfs(source, destination);
+}
+bool dfs(int src, int dst) {
+  if (src == dst) return true;
+  if (visited.find(src) != visited.end()) return false;
+  visited.insert(src);
+  for (auto vertex: graph[src]) {
+      if (dfs(vertex, dst)) return true;
+  }
+  return false;
+}
+void createGraph(int n, vector<vector<int>>& edges){
+  for (auto edge: edges){
+      graph[edge[0]].push_back(edge[1]);
+      graph[edge[1]].push_back(edge[0]);
+  }
+}
+// bfs
 bool validPath(int n, vector<vector<int>>& edges, int start, int end) {
   unordered_map<int, vector<int>> graph;
   createGraph(edges, graph);
@@ -72,6 +95,25 @@ int findJudge(int N, vector<vector<int>>& trust) {
 
 ```cpp
 // All Paths From Source to Target
+// recursive stack (dfs)
+vector<vector<int>> res;
+vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+    vector<int> v = {0};
+    dfs(graph, v, 0);
+    return res;
+}
+void dfs(vector<vector<int>>& graph, vector<int>& path, int src) {
+    if (src == graph.size()-1) {
+        res.push_back(path);
+        return;
+    }
+    for (auto vertex: graph[src]) {
+        path.push_back(vertex);
+        dfs(graph, path, vertex);
+        path.pop_back();
+    }
+}
+// iterative stack
 vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
   stack<int> s;
   s.push(0);
