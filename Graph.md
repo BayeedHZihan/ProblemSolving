@@ -576,3 +576,42 @@ void initVis() {
   for (int i=0; i<n; i++) vis.push_back(false);
 }
 ```
+
+```cpp
+// Shortest Path in Binary Matrix
+int n;
+int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+  n = grid.size();
+  queue<pair<int,int>> q;
+  if (grid[0][0] == 0) q.push({0,0});
+  vector<vector<int>> visited(n, vector<int> (n, false));
+  int res = 1;
+  while(!q.empty()) {
+    int size = q.size();
+    for (int i=0; i<size; i++) {
+      auto front = q.front();
+      q.pop();
+      if (front.first == n-1 && front.second == n-1) return res;
+      if (visited[front.first][front.second]) continue;
+      visited[front.first][front.second] = true;
+      pushNeighbors(q, front, grid);
+    }
+    res++;
+  }
+  return -1;
+}
+
+vector<pair<int,int>> dirs = {{-1,-1},{-1,0},{-1,1},{0,-1},{0,1},{1,-1},{1,0},{1,1}};
+
+void pushNeighbors(queue<pair<int,int>>& q, pair<int,int> cur, vector<vector<int>>& grid) {
+  for(auto dir: dirs) {
+    int x = cur.first + dir.first, y = cur.second + dir.second;
+    if(isValid(x) && isValid(y) && grid[x][y] == 0)
+      q.push({x,y});
+  }
+}
+
+bool isValid(int x) {
+  return x>=0 && x<n;
+}
+```
