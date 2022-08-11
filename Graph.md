@@ -459,47 +459,47 @@ bool valid (vector<vector<int>>& graph, vector<int>& colors, int node, int color
 
 ```cpp
 // Network Delay Time
-typedef pair<int,int> pd;
-
-struct myComp {
-  constexpr bool operator()(
-    pair<int, int> const& a,
-    pair<int, int> const& b)
-    const noexcept
-  {
-    return b.second < a.second;
-  }
-};
-
+unordered_map<int, vector<pair<int,int>>> graph;
 int networkDelayTime(vector<vector<int>>& times, int n, int k) {
-  unordered_map<int, vector<pair<int,int>>> graph;
-  for (int i=0; i<times.size(); i++) {
-    graph[times[i][0]].push_back(make_pair(times[i][1], times[i][2]));
+  createGraph(times);
+
+  vector<int> arrivedAt(n+1, INT_MAX);
+  dijkstra(arrivedAt, k);
+
+  int res = INT_MIN;
+  for (int i=1; i<=n; i++) {
+      res = max(res, arrivedAt[i]);
   }
-  vector<int> dist(n+1, INT_MAX);
-  dist[k] = 0;
-  priority_queue <pd, vector<pd>, myComp> pq;
-  pq.push(make_pair(k, 0));
-  unordered_set<int> visited;
+
+  return res == INT_MAX ? -1 : res;
+}
+void dijkstra(vector<int>& arrivedAt, int src) {
+  priority_queue<pair<int, int>, vector<pair<int,int>>, greater<>> pq;
+  pq.push({0, src});
+  arrivedAt[src] = 0;
+
   while (!pq.empty()) {
-    int curkey = pq.top().first;
-    int curval = pq.top().second;
-    if (dist[curkey] >= curval) dist[curkey] = curval;
-    if (visited.find(curkey) == visited.end()) {
-      visited.insert(curkey);
-      for (int i=0; i<graph[curkey].size(); i++) {
-        int key = graph[curkey][i].first;
-        int val = graph[curkey][i].second + curval;
-        pq.push(make_pair(key, val));
+      int curNode = pq.top().second, curNodeTime = pq.top().first;
+      pq.pop();
+
+      if (curNodeTime > arrivedAt[curNode]) continue;
+
+      for (pair<int,int> neighbor: graph[curNode]) {
+          int curNeighborNode = neighbor.second;
+          int curNeighborTime = neighbor.first;
+
+          if (curNodeTime + curNeighborTime < arrivedAt[curNeighborNode]) {
+              arrivedAt[curNeighborNode] = curNodeTime + curNeighborTime;
+              pq.push({curNodeTime + curNeighborTime, curNeighborNode});
+          }
       }
-    }
-    pq.pop();
   }
-  int ans = dist[1];
-  for (int i=2; i<=n; i++) {
-    ans = max(ans, dist[i]);
+}
+void createGraph(vector<vector<int>>& times) {
+  for (auto time: times) {
+    int src = time[0], dst = time[1], curTime = time[2];
+    graph[src].push_back({curTime, dst});
   }
-  return ans == INT_MAX ? -1 : ans;
 }
 ```
 
