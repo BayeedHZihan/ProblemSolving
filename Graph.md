@@ -638,3 +638,37 @@ vector<vector<int>> levelOrder(Node* root) {
   return res;
 }
 ```
+
+```cpp
+// Course Schedule
+// dfs
+unordered_map<int, vector<int>> graph;
+bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+  // create graph
+  for(auto req: prerequisites) {
+    graph[req[1]].push_back(req[0]);
+  }
+
+  unordered_set<int> vis;
+  unordered_set<int> cur;
+
+  for (int i=0; i<numCourses; i++) {
+    if (vis.find(i) == vis.end() && hasCycle(i, vis, cur)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+bool hasCycle(int src, unordered_set<int>& vis, unordered_set<int>& cur) {
+  if (cur.find(src) != cur.end()) return true;
+  if (vis.find(src) != vis.end()) return false;
+  vis.insert(src);
+  cur.insert(src);
+  for (int neigh: graph[src]) {
+    if (hasCycle(neigh, vis, cur)) return true;
+  }
+  cur.erase(src);
+  return false;
+}
+```
