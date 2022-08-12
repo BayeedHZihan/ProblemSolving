@@ -672,3 +672,49 @@ bool hasCycle(int src, unordered_set<int>& vis, unordered_set<int>& cur) {
   return false;
 }
 ```
+
+```cpp
+// Course Schedule II
+// Topological sort
+vector<int> findOrder(int n, vector<vector<int>>& prereq) {
+  vector<int> res;
+
+  // edge cases
+  // if prereq empty
+  if (prereq.empty()) {
+    for (int i=0; i<n; i++) {
+      res.push_back(i);
+    }
+    return res;
+  }
+
+  // find indegree of all
+  // create graph
+  unordered_map<int, vector<int>> graph;
+  unordered_map<int, int> indegree;
+  for(auto pre: prereq) {
+    indegree[pre[0]]++;
+    graph[pre[1]].push_back(pre[0]);
+  }
+
+  // push ones that have 0 indegree
+  queue<int> q;
+  for (int i=0; i<n; i++) {
+    if (indegree[i] == 0) q.push(i);
+  }
+
+  // until q is empty, visit neigbors, decrease indegree, push zero i.d. to q
+  while(!q.empty()) {
+    int front = q.front();
+    q.pop();
+    res.push_back(front);
+
+    for (int neigh: graph[front]) {
+      indegree[neigh]--;
+      if (indegree[neigh] == 0) q.push(neigh);
+    }
+  }
+
+  return res.size() == n ? res : vector<int> {};
+}
+```
