@@ -718,3 +718,60 @@ vector<int> findOrder(int n, vector<vector<int>>& prereq) {
   return res.size() == n ? res : vector<int> {};
 }
 ```
+
+```cpp
+// Alien Dictionary
+string alienOrder(vector<string>& words) {
+  string res;
+  unordered_map<char, vector<char>> graph;
+  unordered_map<char, int> indegree;
+  int n = words.size();
+
+  // populate indegree
+  for (auto word: words) {
+    for (auto c: word) {
+      indegree[c] = 0;
+    }
+  }
+
+  // build graph and indegree
+  for (int i=0; i<n-1; i++) {
+    string word1 = words[i];
+    string word2 = words[i+1];
+    int len1 = word1.size(), len2 = word2.size();
+
+    // if word2 is prefix of word1
+    if (len1 > len2 && word1.substr(0, len2) == word2) {
+      return "";
+    }
+
+    for (int j=0; j<min(len1, len2); j++) {
+      if (word1[j] != word2[j]) {
+        graph[word1[j]].push_back(word2[j]);
+        indegree[word2[j]]++;
+        break;
+      }
+    }
+  }
+
+  // topological sort
+  queue<char> q;
+
+  for (auto i: indegree) {
+    if (i.second == 0) q.push(i.first);
+  }
+
+  while(!q.empty()) {
+    char front = q.front();
+    q.pop();
+    res.push_back(front);
+
+    for (auto neigh: graph[front]) {
+      indegree[neigh]--;
+      if (indegree[neigh] == 0) q.push(neigh);
+    }
+  }
+
+  return res.size() == indegree.size() ? res : "";
+}
+```
