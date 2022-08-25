@@ -223,3 +223,20 @@ a, a, b, a
 a, aba
 */
 ```
+
+```cpp
+vector<string> res;
+vector<string> generateParenthesis(int n) {
+  dfs(n, "", 0, 0);
+  return res;
+}
+void dfs(int n, string cur, int left, int right) {
+  if (right > left || left > n) return;
+  if (left == n && right == n) {
+    res.push_back(cur);
+    return;
+  }
+  dfs(n, cur+'(', left+1, right);
+  dfs(n, cur+')', left, right+1);
+}
+```
