@@ -225,6 +225,7 @@ a, aba
 ```
 
 ```cpp
+// Generate Parentheses
 vector<string> res;
 vector<string> generateParenthesis(int n) {
   dfs(n, "", 0, 0);
@@ -238,5 +239,51 @@ void dfs(int n, string cur, int left, int right) {
   }
   dfs(n, cur+'(', left+1, right);
   dfs(n, cur+')', left, right+1);
+}
+```
+
+```cpp
+// Letter Combinations of a Phone Number
+vector<string> res;
+string temp;
+vector<string> letterCombinations(string digits) {
+  if (!digits.empty()) backtrack(digits, 0);
+  return res;
+}
+
+void backtrack(string digits, int idx) {
+  if (temp.size() == digits.size()) {
+    res.push_back(temp);
+    return;
+  }
+
+  for (auto c: mapping(digits[idx])) {
+    temp.push_back(c);
+    backtrack(digits, idx+1);
+    temp.pop_back();
+  }
+}
+
+string mapping(char c) {
+  switch (c) {
+    case '2':
+        return "abc";
+    case '3':
+        return "def";
+    case '4':
+        return "ghi";
+    case '5':
+        return "jkl";
+    case '6':
+        return "mno";
+    case '7':
+        return "pqrs";
+    case '8':
+        return "tuv";
+    case '9':
+        return "wxyz";
+    default:
+        return "";
+  }
 }
 ```
