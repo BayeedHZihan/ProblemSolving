@@ -75,3 +75,35 @@ void fill(vector<vector<int>>& intervals, int idx, vector<vector<int>>& res) {
   }
 }
 ```
+
+```cpp
+// Meeting Rooms II
+int minMeetingRooms(vector<vector<int>>& intervals) {
+  sort(intervals.begin(), intervals.end());
+  int res = 0;
+  priority_queue<int, vector<int>, greater<int>> pq;
+  for (auto iv: intervals) {
+    while (!pq.empty() && pq.top() <= iv[0]) pq.pop();
+    pq.push(iv[1]);
+    res = max(res, pq.size());
+  }
+  return res;
+}
+```
+
+```cpp
+// Divide Intervals Into Minimum Number of Groups
+int minGroups(vector<vector<int>>& intervals) {
+  sort(intervals.begin(), intervals.end());
+  int res = 0;
+  priority_queue<int, vector<int>, greater<>> pq;
+
+  for (auto interval: intervals) {
+    while (!pq.empty() && pq.top() < interval[0]) pq.pop();
+    pq.push(interval[1]);
+    res = max(res, pq.size());
+  }
+
+  return res;
+}
+```
