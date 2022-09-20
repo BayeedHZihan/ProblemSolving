@@ -124,19 +124,20 @@ int maxProduct(vector<int>& nums) {
 // Word Break
 bool wordBreak(string s, vector<string>& wordDict) {
   int len = s.size(), n = wordDict.size();
-  vector<bool> dp(len, false);
+  vector<bool> dp(len + 1, false);
+
   for (int i=0; i<len; i++) {
+    if (i == 0 || dp[i]) {
       for (auto word: wordDict) {
-          int wordLen = word.size();
-          if (i >= wordLen-1 && (i == wordLen-1 || dp[i-wordLen])) {
-              if (s.substr(i-wordLen+1, wordLen) == word) {
-                  dp[i] = true;
-                  break;
-              }
-          }
+        int wordlen = word.size();
+        if (i + wordlen <= len && s.substr(i, wordlen) == word) {
+          dp[i + wordlen] = true;
+        }
       }
+    }
   }
-  return dp[len-1];
+
+  return dp[len];
 }
 ```
 
