@@ -39,3 +39,41 @@ public:
 [-4,-1,-1,0,1,2]
 */
 ```
+
+```cpp
+// 3Sum Smaller
+class Solution {
+public:
+    int threeSumSmaller(vector<int>& nums, int target) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+        int cnt = 0;
+
+        for (int i=0; i<n; i++) {
+            cnt += cntForCur(nums[i], i+1, n-1, nums, target);
+        }
+
+        return cnt;
+    }
+
+    int cntForCur(int pivot, int startIdx, int endIdx, vector<int>& nums, int target) {
+        int cnt = 0;
+
+        while (startIdx < endIdx) {
+            if (pivot + nums[startIdx] + nums[endIdx] >= target) {
+                endIdx--;
+            }
+            else {
+                cnt += endIdx - startIdx;
+                startIdx++;
+            }
+        }
+
+        return cnt;
+    }
+};
+
+/*
+-2,0,0,1,3 -> -2,0,3; -2,0,3; -2,0,1, -2,0,1; 0,0,1, -2,0,0
+*/
+```
