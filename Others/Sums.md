@@ -77,3 +77,46 @@ public:
 -2,0,0,1,3 -> -2,0,3; -2,0,3; -2,0,1, -2,0,1; 0,0,1, -2,0,0
 */
 ```
+
+```cpp
+// 3Sum Closest
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int res = INT_MAX, minDif = INT_MAX;
+
+        for (int i=0; i<n-2; i++) {
+            int cur = findClosest(nums[i], i+1, n-1, nums, target);
+            if (abs(target - cur) < minDif) {
+                minDif = abs(target - cur);
+                res = cur;
+            }
+        }
+
+        return res;
+    }
+
+    int findClosest(int pivot, int startIdx, int endIdx, vector<int>& nums, int target) {
+        int closestDif = INT_MAX, closest = INT_MAX;
+
+        while (startIdx < endIdx) {
+            int cursum = pivot + nums[startIdx] + nums[endIdx];
+            if (abs(cursum - target) < closestDif) {
+                closestDif = abs(cursum - target);
+                closest = cursum;
+            }
+
+            if (cursum > target) endIdx--;
+            else startIdx++;
+        }
+
+        return closest;
+    }
+};
+
+/*
+[-4,-1,1,2]
+*/
+```
