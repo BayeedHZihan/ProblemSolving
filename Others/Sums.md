@@ -120,3 +120,54 @@ public:
 [-4,-1,1,2]
 */
 ```
+
+```cpp
+// 4 Sum
+class Solution {
+public:
+    vector<vector<int>> res;
+
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n = nums.size();
+        sort(nums.begin(), nums.end());
+
+        for (int i=0; i<n; i++) {
+            if (i == 0 || nums[i] != nums[i-1]) {
+                bool sameAsLast = false;
+                for (int j=i+1; j<n; j++) {
+                    if (!sameAsLast) {
+                        findSums(nums[i], nums[j], j+1, n-1, nums, target);
+                    }
+                    sameAsLast = j < n-1 && nums[j] == nums[j+1];
+                }
+            }
+        }
+
+        return res;
+    }
+
+    void findSums(int first, int second, int startIdx, int endIdx, vector<int>& nums, int target) {
+        while (startIdx < endIdx) {
+
+            long long cursum = (long long)first + (long long)second + (long long)nums[startIdx] + (long long)nums[endIdx];
+
+            if (cursum == target) {
+                res.push_back({first, second, nums[startIdx], nums[endIdx]});
+
+                startIdx++;
+                while(startIdx < nums.size() && nums[startIdx] == nums[startIdx-1]) {startIdx++;}
+
+                endIdx--;
+                while(endIdx >= 0 && nums[endIdx] == nums[endIdx+1]) {endIdx--;}
+            }
+            else if (cursum > target) endIdx--;
+            else startIdx++;
+        }
+    }
+};
+
+/*
+1,2,2,2,2,2
+-2,-1,0,0,1,2
+*/
+```
