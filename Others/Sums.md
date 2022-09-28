@@ -171,3 +171,28 @@ public:
 -2,-1,0,0,1,2
 */
 ```
+
+```cpp
+// 4 Sum II
+class Solution {
+public:
+    int fourSumCount(vector<int>& nums1, vector<int>& nums2, vector<int>& nums3, vector<int>& nums4) {
+        unordered_map<int, int> umap;
+        for (auto n3: nums3) {
+            for (auto n4: nums4) {
+                umap[n3+n4]++;
+            }
+        }
+
+        int cnt = 0;
+        for (auto n1: nums1) {
+            for (auto n2: nums2) {
+                int target = - n1 - n2;
+                cnt += umap[target];
+            }
+        }
+
+        return cnt;
+    }
+};
+```
